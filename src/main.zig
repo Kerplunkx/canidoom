@@ -14,6 +14,11 @@ pub fn main() !void {
         return;
     };
     defer window.destroy();
+    const render = sdl.createRenderer(window, null, .{ .accelerated = true }) catch {
+        std.log.err("SDL couldn't create renderer.", .{});
+        return;
+    };
+    defer render.destroy();
 
     mainLoop: while (true) {
         while (sdl.pollEvent()) |event| {
@@ -22,5 +27,8 @@ pub fn main() !void {
                 else => {},
             }
         }
+        try render.setColorRGB(0x19, 0x19, 0x19);
+        try render.clear();
+        render.present();
     }
 }
