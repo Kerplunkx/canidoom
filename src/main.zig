@@ -1,15 +1,16 @@
 const std = @import("std");
 const sdl = @import("sdl2");
+const settings = @import("settings.zig");
+const ray = @import("ray.zig");
 
 pub fn main() !void {
-    std.debug.print("Can I {s}\n", .{"DOOM?"});
     sdl.init(.{ .video = true, .events = true }) catch {
         std.log.err("SDL2 failed to initialize.", .{});
         return;
     };
     defer sdl.quit();
 
-    const window = sdl.createWindow("DEMO", .{ .centered = {} }, .{ .centered = {} }, 800, 600, .{ .vis = .shown }) catch {
+    const window = sdl.createWindow("DEMO", .{ .centered = {} }, .{ .centered = {} }, settings.screen_width, settings.screen_height, .{ .vis = .shown }) catch {
         std.log.err("SDL couldn't create the window.", .{});
         return;
     };
@@ -20,6 +21,8 @@ pub fn main() !void {
     };
     defer render.destroy();
 
+    var r = ray.Ray{};
+
     mainLoop: while (true) {
         while (sdl.pollEvent()) |event| {
             switch (event) {
@@ -29,6 +32,7 @@ pub fn main() !void {
         }
         try render.setColorRGB(0x19, 0x19, 0x19);
         try render.clear();
+        try r.casting(render);
         render.present();
     }
 }
