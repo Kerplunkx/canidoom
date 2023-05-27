@@ -2,6 +2,7 @@ const std = @import("std");
 const sdl = @import("sdl2");
 const settings = @import("settings.zig");
 const ray = @import("ray.zig");
+const p = @import("player.zig");
 
 pub fn main() !void {
     sdl.init(.{ .video = true, .events = true }) catch {
@@ -22,6 +23,7 @@ pub fn main() !void {
     defer render.destroy();
 
     var r = ray.Ray{};
+    var player = p.Player{};
 
     mainLoop: while (true) {
         while (sdl.pollEvent()) |event| {
@@ -32,7 +34,7 @@ pub fn main() !void {
         }
         try render.setColorRGB(0x19, 0x19, 0x19);
         try render.clear();
-        try r.casting(render);
+        try r.casting(render, &player);
         render.present();
     }
 }

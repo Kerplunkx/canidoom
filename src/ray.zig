@@ -2,17 +2,19 @@ const std = @import("std");
 const math = std.math;
 const sdl = @import("sdl2");
 const settings = @import("settings.zig");
+const p = @import("player.zig");
 
 pub const Ray = struct {
     x: f32 = undefined,
     y: f32 = undefined,
 
     /// rayCasting function on reference
-    pub fn casting(self: *Ray, render: sdl.Renderer) !void {
-        var angle: f32 = settings.player_angle - settings.player_fov / 2.0;
+    pub fn casting(self: *Ray, render: sdl.Renderer, player: *p.Player) !void {
+        var angle: f32 = player.angle - player.fov / 2.0;
+        player.update();
         for (0..@floatToInt(usize, settings.screen_width)) |count| {
-            self.x = settings.player_x;
-            self.y = settings.player_y;
+            self.x = 2.0;
+            self.y = 2.0;
 
             var cos = math.cos(math.degreesToRadians(f32, angle)) / settings.raycasting_precision;
             var sin = math.sin(math.degreesToRadians(f32, angle)) / settings.raycasting_precision;
@@ -26,7 +28,7 @@ pub const Ray = struct {
             }
 
             // Pythagoras theorem
-            var distance = math.sqrt(math.pow(f32, settings.player_x - self.x, 2) + math.pow(f32, settings.player_y - self.y, 2));
+            var distance = math.sqrt(math.pow(f32, player.x - self.x, 2) + math.pow(f32, player.y - self.y, 2));
 
             // Wall height
             var wall_height: f32 = math.floor(settings.screen_height / distance);
