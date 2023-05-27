@@ -14,15 +14,27 @@ pub const Player = struct {
     pub fn update(self: *Player) void {
         const key_states = sdl.getKeyboardState();
         if (key_states.isPressed(sdl.Scancode.w)) {
-            const cos = math.cos(math.degreesToRadians(f32, self.angle)) * self.movement;
-            const sin = math.sin(math.degreesToRadians(f32, self.angle)) * self.movement;
-            self.x += cos;
-            self.y += sin;
+            const cos = math.cos(math.degreesToRadians(f32, self.angle)) * self.movement * 0.1;
+            const sin = math.sin(math.degreesToRadians(f32, self.angle)) * self.movement * 0.1;
+            var new_x = self.x + cos;
+            var new_y = self.y + sin;
+
+            // Collision test
+            if (settings.map[@floatToInt(usize, math.floor(new_y))][@floatToInt(usize, math.floor(new_x))] == 0) {
+                self.x = new_x;
+                self.y = new_y;
+            }
         } else if (key_states.isPressed(sdl.Scancode.s)) {
-            const cos = math.cos(math.degreesToRadians(f32, self.angle)) * self.movement;
-            const sin = math.sin(math.degreesToRadians(f32, self.angle)) * self.movement;
-            self.x -= cos;
-            self.y -= sin;
+            const cos = math.cos(math.degreesToRadians(f32, self.angle)) * self.movement * 0.1;
+            const sin = math.sin(math.degreesToRadians(f32, self.angle)) * self.movement * 0.1;
+            var new_x = self.x - cos;
+            var new_y = self.y - sin;
+
+            // Collision test
+            if (settings.map[@floatToInt(usize, math.floor(new_y))][@floatToInt(usize, math.floor(new_x))] == 0) {
+                self.x = new_x;
+                self.y = new_y;
+            }
         } else if (key_states.isPressed(sdl.Scancode.d)) {
             self.angle += self.rotation;
         } else if (key_states.isPressed(sdl.Scancode.a)) {
