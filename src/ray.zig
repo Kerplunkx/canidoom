@@ -30,8 +30,11 @@ pub const Ray = struct {
             // Pythagoras theorem
             var distance = math.sqrt(math.pow(f32, player.x - self.x, 2) + math.pow(f32, player.y - self.y, 2));
 
+            // Fisheye fix
+            distance = distance * math.cos(math.degreesToRadians(f32, angle - player.angle));
+
             // Wall height
-            var wall_height: f32 = math.floor(settings.screen_height / distance);
+            var wall_height: f32 = math.floor((settings.screen_height / 2) / distance);
 
             // Drawing
             // Ceiling
