@@ -13,8 +13,8 @@ pub const Ray = struct {
         var angle: f32 = player.angle - player.fov / 2.0;
         player.update();
         for (0..@floatToInt(usize, settings.screen_width)) |count| {
-            self.x = 2.0;
-            self.y = 2.0;
+            self.x = player.x;
+            self.y = player.y;
 
             var cos = math.cos(math.degreesToRadians(f32, angle)) / settings.raycasting_precision;
             var sin = math.sin(math.degreesToRadians(f32, angle)) / settings.raycasting_precision;
