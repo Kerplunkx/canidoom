@@ -22,10 +22,14 @@ pub fn main() !void {
     };
     defer render.destroy();
 
+    var frame_start: u32 = undefined;
+    var frame_time: u32 = undefined;
+
     var r = ray.Ray{};
     var player = p.Player{};
 
     mainLoop: while (true) {
+        frame_start = sdl.getTicks();
         while (sdl.pollEvent()) |event| {
             switch (event) {
                 .quit => break :mainLoop,
@@ -36,5 +40,10 @@ pub fn main() !void {
         try render.clear();
         try r.casting(render, &player);
         render.present();
+
+        frame_time = sdl.getTicks() - frame_start;
+        if (settings.frame_delay > frame_time) {
+            sdl.delay(settings.frame_delay - frame_time);
+        }
     }
 }

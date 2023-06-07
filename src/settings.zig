@@ -1,3 +1,5 @@
+pub const fps = 60;
+pub const frame_delay: u32 = 1000 / fps;
 pub const screen_width = 640.0;
 pub const screen_height = 480.0;
 pub const render_delay = 30;
