@@ -14,8 +14,8 @@ pub const Player = struct {
     pub fn update(self: *Player) void {
         const key_states = sdl.getKeyboardState();
         if (key_states.isPressed(sdl.Scancode.w)) {
-            const cos = math.cos(math.degreesToRadians(f32, self.angle)) * self.movement * 0.1;
-            const sin = math.sin(math.degreesToRadians(f32, self.angle)) * self.movement * 0.1;
+            const cos = math.cos(math.degreesToRadians(f32, self.angle)) / self.movement;
+            const sin = math.sin(math.degreesToRadians(f32, self.angle)) / self.movement;
             var new_x = self.x + cos;
             var new_y = self.y + sin;
 
@@ -25,8 +25,8 @@ pub const Player = struct {
                 self.y = new_y;
             }
         } else if (key_states.isPressed(sdl.Scancode.s)) {
-            const cos = math.cos(math.degreesToRadians(f32, self.angle)) * self.movement * 0.1;
-            const sin = math.sin(math.degreesToRadians(f32, self.angle)) * self.movement * 0.1;
+            const cos = math.cos(math.degreesToRadians(f32, self.angle)) / self.movement;
+            const sin = math.sin(math.degreesToRadians(f32, self.angle)) / self.movement;
             var new_x = self.x - cos;
             var new_y = self.y - sin;
 
