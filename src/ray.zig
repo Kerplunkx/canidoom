@@ -12,7 +12,7 @@ pub const Ray = struct {
     pub fn casting(self: *Ray, render: sdl.Renderer, player: *p.Player) !void {
         var angle: f32 = player.angle - player.fov / 2.0;
         player.update();
-        for (0..@floatToInt(usize, settings.screen_width)) |count| {
+        for (0..@as(usize, @intFromFloat(settings.screen_width))) |count| {
             self.x = player.x;
             self.y = player.y;
 
@@ -24,7 +24,7 @@ pub const Ray = struct {
             while (wall == 0) {
                 self.x += cos;
                 self.y += sin;
-                wall = settings.map[@floatToInt(usize, math.floor(self.y))][@floatToInt(usize, math.floor(self.x))];
+                wall = settings.map[@as(usize, @intFromFloat(math.floor(self.y)))][@as(usize, @intFromFloat(math.floor(self.x)))];
             }
 
             // Pythagoras theorem
@@ -39,13 +39,13 @@ pub const Ray = struct {
             // Drawing
             // Ceiling
             try render.setColor(sdl.Color.cyan);
-            try render.drawLineF(@intToFloat(f32, count), 0, @intToFloat(f32, count), (settings.screen_height / 2) - wall_height);
+            try render.drawLineF(@as(f32, @floatFromInt(count)), 0, @as(f32, @floatFromInt(count)), (settings.screen_height / 2) - wall_height);
             // Walls
             try render.setColor(sdl.Color.red);
-            try render.drawLineF(@intToFloat(f32, count), (settings.screen_height / 2) - wall_height, @intToFloat(f32, count), (settings.screen_height / 2) + wall_height);
+            try render.drawLineF(@as(f32, @floatFromInt(count)), (settings.screen_height / 2) - wall_height, @as(f32, @floatFromInt(count)), (settings.screen_height / 2) + wall_height);
             // Floor
             try render.setColor(sdl.Color.green);
-            try render.drawLineF(@intToFloat(f32, count), (settings.screen_height / 2) + wall_height, @intToFloat(f32, count), settings.screen_height);
+            try render.drawLineF(@as(f32, @floatFromInt(count)), (settings.screen_height / 2) + wall_height, @as(f32, @floatFromInt(count)), settings.screen_height);
 
             angle += settings.increment_angle;
         }

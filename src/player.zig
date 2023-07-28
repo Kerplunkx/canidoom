@@ -20,7 +20,7 @@ pub const Player = struct {
             var new_y = self.y + sin;
 
             // Collision test
-            if (settings.map[@floatToInt(usize, math.floor(new_y))][@floatToInt(usize, math.floor(new_x))] == 0) {
+            if (settings.map[@as(usize, @intFromFloat(math.floor(new_y)))][@as(usize, @intFromFloat(math.floor(new_x)))] == 0) {
                 self.x = new_x;
                 self.y = new_y;
             }
@@ -31,7 +31,7 @@ pub const Player = struct {
             var new_y = self.y - sin;
 
             // Collision test
-            if (settings.map[@floatToInt(usize, math.floor(new_y))][@floatToInt(usize, math.floor(new_x))] == 0) {
+            if (settings.map[@as(usize, @intFromFloat(math.floor(new_y)))][@as(usize, @intFromFloat(math.floor(new_x)))] == 0) {
                 self.x = new_x;
                 self.y = new_y;
             }
